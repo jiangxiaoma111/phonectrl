@@ -16,8 +16,16 @@ PORT = 50007
 server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 server.bind((HOST, PORT))
 
-command, addr = server.recvfrom(1024)
-if command[0] == SHUTDOWN:
-	ret = shutdown()
-ret = int.to_bytes(ret, 4, 'big', signed=True)
+def recvcmd():
+	command, addr = server.recvfrom(1024)
+	print(command[0], SHUTDOWN)
+	ret = 1000
+	if command[0] == SHUTDOWN:
+		ret = shutdown()
+	print(ret)
+	return ret
+stat = 1000
+while stat is not 0:
+	stat = recvcmd()
+ret = int.to_bytes(stat, 1, 'big', signed=True)
 server.sendto(ret, addr)
