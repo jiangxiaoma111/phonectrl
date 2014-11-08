@@ -4,6 +4,7 @@ import os
 
 SHUTDOWN = 0x01
 HALT = 0x02
+REBOOT = 0x03
 
 def shutdown():
 	if 'nt' == os.name:
@@ -11,6 +12,17 @@ def shutdown():
 	elif 'posix' == os.name:
 		return os.system('shutdown -P +0')
 
+def halt():
+	if 'nt' == os.name:
+		return os.system('shutdown ')
+	elif 'posix' == os.name:
+		return os.system('shutdown -H +0')
+
+def reboot():
+	if 'nt' == os.name:
+		return os.system('shutdown')
+	elif 'posix' == os.name:
+		return os.system('shutdown -r')
 HOST = ''
 PORT = 50007
 server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
